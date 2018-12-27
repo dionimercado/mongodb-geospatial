@@ -1,13 +1,8 @@
 const express = require('express');
 const app = express();
 const client = require('mongodb').MongoClient;
-const URL = "mongodb://username:password@aws-us-west-2-portal.0.dblayer.com:15326/fairfax?ssl=true, mongodb://username:password@aws-us-west-2-portal.1.dblayer.com:15326/fairfax?ssl=true";
-const options = {
-    mongos: {
-        ssl: true,
-        sslValidate: false
-    }
-};
+const URL = "mongodb://username:password@aws-us-west-2-portal.0.dblayer.com:15326/fairfax?ssl=true, mongodb://localhost/geospatial";
+
 const port = 8080;
 const morgan = require('morgan');
 const router = express.Router();
@@ -19,7 +14,7 @@ app.use(morgan('dev'));
 
 let db;
 
-client.connect(URL, options, (err, database) => {
+client.connect(URL, {}, (err, database) => {
     if (err) throw err;
     db = database;
     app.listen(port, () => {
